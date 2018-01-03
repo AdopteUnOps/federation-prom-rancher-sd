@@ -1,0 +1,6 @@
+*.json
+*.swp
+*~
+
+.idea
+*.iml
