@@ -3,6 +3,7 @@
 import time
 import urllib.parse
 import urllib.request
+from urllib.error import URLError, HTTPError
 import json
 import shutil
 import sys
@@ -84,6 +85,20 @@ if __name__ == '__main__':
         print("Please set the environment variables RANCHER_ACCESS_KEY RANCHER_SECRET_KEY RANCHER_URL")
         sys.exit(1)
     manage_auth( apikey, secretkey, url, '/token')
-    while True:
-        time.sleep(5)
-        write_config_file('prometheus-federation.json', get_prometheus_hosts(url))
+    retry = 0
+    max_retry = 5
+    while retry < max_retry:
+        try:
+            time.sleep(5)
+            write_config_file('prometheus-federation.json', get_prometheus_hosts(url))
+        except HTTPError as e:
+            if e.code == 401:
+                print('Authentication error please check your RANCHER_ACCESS_KEY and RANCHER_SECRET_KEY')
+                sys.exit(1)
+            else:
+                print('The server couldn\'t fulfill the request. Error code:', e.code, 'Reason:', e.reason)
+                retry += 1
+        except URLError as e:
+            print('We failed to reach a server.')
+            print('Reason: ', e.reason)
+            retry += 1
