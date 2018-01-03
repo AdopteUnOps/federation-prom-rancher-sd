@@ -7,4 +7,6 @@ RUN chmod +x /federation-prom-rancher-sd.py
 
 VOLUME /federation-prom-rancher-sd-data
 
+WORKDIR /federation-prom-rancher-sd-data
+
 CMD ["/federation-prom-rancher-sd.py"]
