@@ -51,7 +51,7 @@ def get_current_metadata_entry(entry):
 
 def is_promotheus_service(service):
 
-    return "prometheus" == service['name'] and "publicEndpoints" in service
+    return "prometheus" == service['name'] and "publicEndpoints" in service and service['publicEndpoints'] is not None
 
 def get_prometheus_hosts(rancher_host):
     prometheus_hosts = []
