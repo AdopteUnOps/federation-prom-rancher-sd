@@ -63,11 +63,7 @@ def get_prometheus_hosts(rancher_host):
 
 def prometheus_monitoring_config(service, project_name):
     return {
-        "targets": [publicEndpoint['ipAddress'] + ':' + str(publicEndpoint['port']) for publicEndpoint in service['publicEndpoints']],
-        "labels": {
-            "instance": project_name
-        }
-    }
+        "targets": [publicEndpoint['ipAddress'] + ':' + str(publicEndpoint['port']) for publicEndpoint in service['publicEndpoints']]    }
 
 def write_config_file(filename, content):
     tmpfile = filename+'.temp'
